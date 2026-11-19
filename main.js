@@ -51,6 +51,13 @@ var SKY_THEMES = {
     far: '#0c1830', near: '#08101f',
     sand:  [['#5a4a3a', 0], ['#3e3225', 0.4], ['#1e160e', 1]],
     crest: '#7a6a52', stars: true
+  },
+  dawn: {
+    sky:   [['#1a1430', 0], ['#a86a78', 0.55], ['#ffd9b0', 1]],
+    sun: '#ffe6c0', sunGlow: '#ffd0a0', sunX: 0.72, sunY: 0.42, sunR: 0.06,
+    far: '#4a3a4a', near: '#362838',
+    sand:  [['#c4a070', 0], ['#946a3a', 0.4], ['#4a2e18', 1]],
+    crest: '#e8c890', stars: false
   }
 };
 
@@ -257,6 +264,7 @@ function fire(actor) {
     actor: actor
   };
   phase = 'fire';
+  if (actor === 'player' && window.MUX) MUX.hit();
   updateHUD();
 }
 function updateShell(dt) {
