@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a1842"/>
+      <stop offset="0.5" stop-color="#8c3a4a"/>
+      <stop offset="1" stop-color="#e88a4a"/>
+    </linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c89060"/>
+      <stop offset="0.5" stop-color="#946234"/>
+      <stop offset="1" stop-color="#4a2e18"/>
+    </linearGradient>
+    <radialGradient id="sunglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffb567" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#ffb567" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- dusk sky -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#sky)"/>
+
+  <!-- sun -->
+  <circle cx="370" cy="170" r="90" fill="url(#sunglow)"/>
+  <circle cx="370" cy="170" r="40" fill="#ff9a4a"/>
+
+  <!-- far dune -->
+  <path d="M0 300 Q 120 250 220 290 T 420 280 T 512 300 L 512 512 L 0 512 Z" fill="#3e2440" opacity="0.85"/>
+
+  <!-- main dune (sand) -->
+  <path d="M0 360 Q 90 320 180 350 T 360 340 T 512 360 L 512 512 L 0 512 Z" fill="url(#sand)"/>
+
+  <!-- dune crest highlight -->
+  <path d="M0 360 Q 90 320 180 350 T 360 340 T 512 360" fill="none" stroke="#e8b878" stroke-width="4" opacity="0.9"/>
+
+  <!-- tank silhouette -->
+  <g transform="translate(196 340)">
+    <!-- shadow -->
+    <ellipse cx="0" cy="22" rx="62" ry="9" fill="#000" opacity="0.28"/>
+    <!-- treads -->
+    <rect x="-58" y="2" width="116" height="20" rx="6" fill="#3e2818"/>
+    <g fill="#000" opacity="0.35">
+      <rect x="-50" y="6" width="4" height="12"/>
+      <rect x="-38" y="6" width="4" height="12"/>
+      <rect x="-26" y="6" width="4" height="12"/>
+      <rect x="-14" y="6" width="4" height="12"/>
+      <rect x="-2" y="6" width="4" height="12"/>
+      <rect x="10" y="6" width="4" height="12"/>
+      <rect x="22" y="6" width="4" height="12"/>
+      <rect x="34" y="6" width="4" height="12"/>
+      <rect x="46" y="6" width="4" height="12"/>
+    </g>
+    <!-- body -->
+    <path d="M-52 -4 L-40 -18 L34 -18 L52 -4 L52 6 L-52 6 Z" fill="#5a8c3a"/>
+    <path d="M-52 -4 L-40 -18 L34 -18 L52 -4 L52 6 L-52 6 Z" fill="none" stroke="#3e6428" stroke-width="2"/>
+    <!-- turret -->
+    <circle cx="0" cy="-22" r="14" fill="#3e6428"/>
+    <circle cx="0" cy="-22" r="9" fill="#6ba448"/>
+    <!-- barrel -->
+    <rect x="0" y="-26" width="70" height="7" rx="2" fill="#2a1810" transform="rotate(-12 0 -22)"/>
+    <rect x="0" y="-25" width="70" height="3" rx="1" fill="#6ba448" transform="rotate(-12 0 -22)"/>
+  </g>
+</svg>

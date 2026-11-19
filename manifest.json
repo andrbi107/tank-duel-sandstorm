@@ -1,0 +1,15 @@
+{
+  "name": "Tank Duel: Sandstorm",
+  "short_name": "Tank Duel",
+  "description": "A turn-based artillery tank duel across desert dunes. Aim your angle, lead the wind, and reduce the enemy tank to rubble.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#1a1208",
+  "theme_color": "#1a1208",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

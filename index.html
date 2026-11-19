@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1a1208">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tank Duel">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
+<title>Tank Duel: Sandstorm</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Game canvas (rendered landscape, fills viewport) -->
+    <canvas id="game" aria-label="Tank Duel battlefield"></canvas>
+
+    <!-- In-game HUD overlay (only visible during play) -->
+    <div id="hud" class="overlay hidden" aria-hidden="true">
+      <div class="hud-top">
+        <div class="hp-block hp-left">
+          <span class="hp-name" id="hp-name-left">YOU</span>
+          <div class="hp-bar"><div class="hp-fill" id="hp-fill-left"></div></div>
+        </div>
+        <div class="wind-block">
+          <div class="wind-label">WIND</div>
+          <div class="wind-row">
+            <span class="wind-val" id="wind-val">0</span>
+            <span class="wind-arrow" id="wind-arrow">→</span>
+          </div>
+          <div class="turn-indicator" id="turn-indicator">YOUR TURN</div>
+        </div>
+        <div class="hp-block hp-right">
+          <span class="hp-name" id="hp-name-right">AI</span>
+          <div class="hp-bar"><div class="hp-fill right" id="hp-fill-right"></div></div>
+        </div>
+        <button id="btn-pause" class="icon-btn" aria-label="Pause">II</button>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="aim-readout">
+          <div class="aim-line">∠ <span id="angle-val">45</span>°</div>
+          <div class="power-line">
+            <span class="power-label">PWR</span>
+            <div class="power-bar"><div class="power-fill" id="power-fill"></div></div>
+            <span id="power-val">50</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Touch controls (shown on touch / small screens via CSS) -->
+      <div id="touch-controls" class="touch-controls">
+        <div class="dpad-col">
+          <button class="t-btn" data-angle="up" aria-label="Increase angle">▲</button>
+          <button class="t-btn" data-angle="down" aria-label="Decrease angle">▼</button>
+        </div>
+        <button class="t-btn fire" id="t-fire" aria-label="Fire">FIRE</button>
+        <div class="dpad-col">
+          <button class="t-btn" data-power="down" aria-label="Decrease power">◀</button>
+          <button class="t-btn" data-power="up" aria-label="Increase power">▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start screen -->
+    <div id="start-screen" class="overlay screen">
+      <div class="panel">
+        <h1 class="title">TANK DUEL</h1>
+        <p class="subtitle">SAN DSTORM</p>
+        <p class="tagline">A turn-based artillery duel across the dunes. Aim, lead the wind, fire.</p>
+
+        <label class="field">
+          <span class="field-label">Commander name (optional)</span>
+          <input id="name-input" type="text" maxlength="14" placeholder="e.g. ACE" autocomplete="off">
+        </label>
+
+        <div class="field">
+          <span class="field-label">Sky</span>
+          <div class="choices" data-group="sky">
+            <button class="choice" data-value="day">Day</button>
+            <button class="choice active" data-value="dusk">Dusk</button>
+            <button class="choice" data-value="night">Night</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Difficulty</span>
+          <div class="choices" data-group="difficulty">
+            <button class="choice" data-value="easy">Easy</button>
+            <button class="choice active" data-value="normal">Normal</button>
+            <button class="choice" data-value="hard">Hard</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Match</span>
+          <div class="choices" data-group="mode">
+            <button class="choice active" data-value="1">Best of 1</button>
+            <button class="choice" data-value="3">Best of 3</button>
+          </div>
+        </div>
+
+        <button id="btn-play" class="primary">DEPLOY</button>
+
+        <p class="controls-hint">
+          <strong>Arrows / WASD</strong> aim · <strong>Space</strong> fires · or touch ▲▼◀▶ + FIRE · mouse aim above your tank
+        </p>
+
+        <div class="record-row" id="record-row">
+          <span>Record: <strong id="rec-wins">0</strong>W / <strong id="rec-losses">0</strong>L</span>
+          <span>Best win: <strong id="rec-best">—</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pause screen -->
+    <div id="pause-screen" class="overlay screen hidden">
+      <div class="panel">
+        <h2 class="title">PAUSED</h2>
+        <button id="btn-resume" class="primary">RESUME</button>
+        <button id="btn-restart-round" class="secondary">RESTART ROUND</button>
+        <button id="btn-home" class="secondary">HOME</button>
+      </div>
+    </div>
+
+    <!-- Round over screen -->
+    <div id="round-over-screen" class="overlay screen hidden">
+      <div class="panel">
+        <h2 class="title" id="round-over-title">ROUND WON</h2>
+        <p class="info" id="round-over-info">You destroyed the enemy tank.</p>
+        <div class="score-line" id="round-over-score"></div>
+        <button id="btn-next-round" class="primary">NEXT ROUND</button>
+        <button id="btn-restart-from-round" class="secondary">RESTART MATCH</button>
+      </div>
+    </div>
+
+    <!-- Match over screen -->
+    <div id="match-over-screen" class="overlay screen hidden">
+      <div class="panel">
+        <h2 class="title" id="match-over-title">VICTORY</h2>
+        <p class="info" id="match-over-info"></p>
+        <div class="score-line" id="match-over-score"></div>
+        <div class="record-row">
+          <span>Record: <strong id="mo-rec-wins">0</strong>W / <strong id="mo-rec-losses">0</strong>L</span>
+          <span>Best win: <strong id="mo-rec-best">—</strong></span>
+        </div>
+        <button id="btn-play-again" class="primary">PLAY AGAIN</button>
+        <button id="btn-home-end" class="secondary">HOME</button>
+      </div>
+    </div>
+
+    <!-- Rotate hint (portrait only) -->
+    <div id="rotate-hint" class="overlay rotate-hint">
+      <div class="rotate-inner">
+        <div class="rotate-icon">⟳</div>
+        <p>Rotate your device to landscape to play Tank Duel.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
