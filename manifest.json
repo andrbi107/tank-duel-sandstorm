@@ -8,8 +8,18 @@
   "orientation": "landscape",
   "background_color": "#1a1208",
   "theme_color": "#1a1208",
-  "categories": ["games", "entertainment"],
+  "categories": [
+    "games",
+    "entertainment"
+  ],
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
-  ]
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "version": "0.0.5",
+  "version_name": "v0.0.5"
 }
