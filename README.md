@@ -2,10 +2,10 @@
 
 > یک دوئل توپخانه‌ای turn-based با فیزیک پرتابه، زمین destructible، و باد — PWA با Vanilla JS.
 
-[![Version](https://img.shields.io/badge/version-v0.0.3-blue)](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.3) [![PWA](https://img.shields.io/badge/PWA-installable-purple)](https://andrbi107.github.io/tank-duel-sandstorm/) [![No deps](https://img.shields.io/badge/dependencies-none-success)](https://github.com/andrbi107/tank-duel-sandstorm) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Version](https://img.shields.io/badge/version-v0.0.4-blue)](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.4) [![PWA](https://img.shields.io/badge/PWA-installable-purple)](https://andrbi107.github.io/tank-duel-sandstorm/) [![deps](https://img.shields.io/badge/deps-Howler.js_local-blueviolet)](https://github.com/andrbi107/tank-duel-sandstorm) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 🎮 **[بازی کن](https://andrbi107.github.io/tank-duel-sandstorm/)** — نسخه‌ی آنلاین روی GitHub Pages
-📦 **[مخزن گیت‌هاب](https://github.com/andrbi107/tank-duel-sandstorm)** · 🏷️ **[Release v0.0.3](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.3)**
+📦 **[مخزن گیت‌هاب](https://github.com/andrbi107/tank-duel-sandstorm)** · 🏷️ **[Release v0.0.4](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.4)**
 
 ---
 
@@ -17,7 +17,15 @@
 
 ---
 
-## تغییرات v0.0.3 (جدید)
+## تغییرات v0.0.4 (جدید)
+
+(v0.0.4 فقط کیت مشترک؛ گیم‌پلی v0.0.3 حفظ شد: ۳ سلاح + تنظیمات inline).
+
+**همه‌ی بازی‌ها (v0.0.4)** — `gamekit.js` مشترک + `vendor/howler.min.js` محلی: صدای Howler با SFX خودکار (pickup/collision/game-over از طریق پل MUX)، صفحه‌ی **راهنما**، صفحه‌ی **تنظیمات** (قطع/وصل صدا)، قلاب‌های تست (`render_game_to_text`/`advanceTime`)، **فول‌اسکرین** (کلید F)، و سیستم **دستاوردها**. cache سرویس‌ورکر به v4 ارتقا یافت (آفلاین کامل با vendor).
+
+---
+
+## تغییرات v0.0.3
 
 **Tank Duel** — تنوع سلاح: ۳ سلاح (استاندارد/خوشه‌ای/سنگین) + انتخاب‌گر در منو + کلید Q برای تغییر در بازی.
 

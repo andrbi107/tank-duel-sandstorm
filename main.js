@@ -1165,3 +1165,8 @@ function init() {
 init();
 
 })();
+// ---- v0.0.4 gamekit wiring ----
+if (window.GK) {
+  GK.help({ title: "Tank Duel: Sandstorm", objective: "Turn-based artillery duel. Adjust angle/power, mind the wind, destroy the enemy tank.", controls: ["Touch: drag to aim + power slider","Arrows / A,D: angle; W/S: power","Q: cycle weapon","Enter / Space: fire","P: pause","F: fullscreen"], tips: "Best-of-3 wins the match." });
+  GK.exposeState(function () { try { return { score: (window.S && window.S.score) || window.score || 0, mode: (window.S && window.S.mode) || 'play', wave: (window.S && window.S.wave) || 0 }; } catch (e) { return {}; } });
+}
