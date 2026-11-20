@@ -1,6 +1,6 @@
 // Tank Duel: Sandstorm - service worker
 // Precaches the full app shell so the game loads and plays fully offline.
-var CACHE = 'tank-duel-sandstorm-v2';
+var CACHE = 'tank-duel-sandstorm-v3';
 var ASSETS = [
   './',
   './index.html', './mobile-ux.js',

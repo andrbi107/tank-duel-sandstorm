@@ -19,6 +19,14 @@ var TANK_W = 30;
 var TANK_H = 12;
 var DIRECT_MIN = 25, DIRECT_MAX = 40;
 var NEAR_MIN = 10, NEAR_MAX = 20;
+
+// v0.0.3 — weapon variety
+var WEAPONS = {
+  standard: { name: 'استاندارد', blastR: 1.0,  dmgScale: 1.0,  velScale: 1.0,  cluster: 0, spread: 0 },
+  cluster:  { name: 'خوشه‌ای',   blastR: 0.55, dmgScale: 0.5,  velScale: 1.05, cluster: 3, spread: 26 },
+  heavy:    { name: 'سنگین',     blastR: 1.5,  dmgScale: 1.5,  velScale: 0.82, cluster: 0, spread: 0 }
+};
+var WEAPON_ORDER = ['standard', 'cluster', 'heavy'];
 var RESOLVE_DELAY = 0.9;    // s after impact before turn passes
 var ENEMY_THINK_DELAY = 0.8;// s the AI visibly aims before firing
 var KEY_REPEAT = 0.03;      // s between held-key adjustments
@@ -106,7 +114,7 @@ var screen = 'start';        // start | playing | paused | round-over | match-ov
 var phase = 'aim';           // aim | fire | enemy-think | resolve
 var turn = 'player';         // player | enemy
 
-var settings = { sky: 'dusk', difficulty: 'normal', mode: 1 };
+var settings = { sky: 'dusk', difficulty: 'normal', mode: 1, weapon: 'standard' };
 var playerName = '';
 
 var terrain = [];
@@ -254,14 +262,17 @@ function fire(actor) {
   if (actor === 'player' && (phase !== 'aim' || turn !== 'player')) return;
   var t = actor === 'player' ? player : enemy;
   var m = getMuzzle(t);
-  var v = POWER_BASE + t.power * POWER_SCALE;
+  var weapon = actor === 'player' ? settings.weapon : 'standard';
+  var W = WEAPONS[weapon];
+  var v = (POWER_BASE + t.power * POWER_SCALE) * W.velScale;
   var rad = t.angle * Math.PI / 180;
   shell = {
     x: m.x, y: m.y,
     vx: Math.cos(rad) * v * t.dir,
     vy: -Math.sin(rad) * v,
     trail: [],
-    actor: actor
+    actor: actor,
+    weapon: weapon
   };
   phase = 'fire';
   if (actor === 'player' && window.MUX) MUX.hit();
@@ -280,14 +291,14 @@ function updateShell(dt) {
   if (target) {
     var tcy = tankCenterY(target);
     if (Math.hypot(target.x - shell.x, tcy - shell.y) < TANK_HIT_RADIUS + 4) {
-      explode(shell.x, shell.y, shell.actor);
+      detonate(shell.x, shell.y, shell.actor, shell.weapon);
       shell = null;
       endTurnAfterImpact();
       return;
     }
   }
   if (shell.y >= terrainY(shell.x) - 1) {
-    explode(shell.x, terrainY(shell.x), shell.actor);
+    detonate(shell.x, terrainY(shell.x), shell.actor, shell.weapon);
     shell = null;
     endTurnAfterImpact();
     return;
@@ -299,7 +310,10 @@ function updateShell(dt) {
 }
 
 /* ============================================================ Explosion + damage */
-function explode(x, y, actor) {
+function explode(x, y, actor, weapon) {
+  var W = WEAPONS[weapon || 'standard'];
+  var hitR = TANK_HIT_RADIUS * W.blastR;
+  var expR = EXPLOSION_RADIUS * W.blastR;
   var tanks = [player, enemy];
   for (var i = 0; i < tanks.length; i++) {
     var t = tanks[i];
@@ -307,10 +321,10 @@ function explode(x, y, actor) {
     var tcy = tankCenterY(t);
     var d = Math.hypot(t.x - x, tcy - y);
     var dmg = 0;
-    if (d < TANK_HIT_RADIUS) {
-      dmg = Math.round(DIRECT_MAX - (d / TANK_HIT_RADIUS) * (DIRECT_MAX - DIRECT_MIN));
-    } else if (d < EXPLOSION_RADIUS) {
-      dmg = Math.round(NEAR_MAX - ((d - TANK_HIT_RADIUS) / (EXPLOSION_RADIUS - TANK_HIT_RADIUS)) * (NEAR_MAX - NEAR_MIN));
+    if (d < hitR) {
+      dmg = Math.round((DIRECT_MAX - (d / hitR) * (DIRECT_MAX - DIRECT_MIN)) * W.dmgScale);
+    } else if (d < expR) {
+      dmg = Math.round((NEAR_MAX - ((d - hitR) / (expR - hitR)) * (NEAR_MAX - NEAR_MIN)) * W.dmgScale);
     }
     if (dmg > 0) {
       t.hp = Math.max(0, t.hp - dmg);
@@ -318,9 +332,21 @@ function explode(x, y, actor) {
       toast((t === player ? 'YOU' : 'AI') + ' -' + dmg + ' HP');
     }
   }
-  carveCrater(x, y, EXPLOSION_RADIUS * 0.8);
-  explosions.push({ x: x, y: y, maxR: EXPLOSION_RADIUS * 1.3, age: 0, life: 0.6 });
-  spawnDust(x, y, 24);
+  carveCrater(x, y, expR * 0.8);
+  explosions.push({ x: x, y: y, maxR: expR * 1.3, age: 0, life: 0.6 });
+  spawnDust(x, y, Math.round(24 * W.blastR));
+}
+// v0.0.3 — detonate handles cluster splitting before explode()
+function detonate(x, y, actor, weapon) {
+  var W = WEAPONS[weapon || 'standard'];
+  if (W.cluster > 1) {
+    for (var k = 0; k < W.cluster; k++) {
+      var off = (k - (W.cluster - 1) / 2) * W.spread;
+      explode(x + off, y, actor, weapon);
+    }
+  } else {
+    explode(x, y, actor, weapon);
+  }
 }
 function spawnDust(x, y, count) {
   var colors = ['#ffb84a', '#ff7a3a', '#d9b370', '#8b5a2b', '#fff2c0'];
@@ -915,6 +941,19 @@ function bindKeyboard() {
       e.preventDefault();
     } else if (k === 'r' || k === 'R') {
       if (screen === 'paused') { hidePause(); startRound(); }
+    } else if (k === 'q' || k === 'Q') {
+      // v0.0.3 — cycle weapon during player's aim
+      if (screen === 'playing' && phase === 'aim' && turn === 'player') {
+        var idx = WEAPON_ORDER.indexOf(settings.weapon);
+        settings.weapon = WEAPON_ORDER[(idx + 1) % WEAPON_ORDER.length];
+        toast('سلاح: ' + WEAPONS[settings.weapon].name);
+        // keep the settings UI in sync
+        var wBtns = document.querySelectorAll('[data-group="weapon"] .choice');
+        for (var bi = 0; bi < wBtns.length; bi++) {
+          wBtns[bi].classList.toggle('active', wBtns[bi].dataset.value === settings.weapon);
+        }
+        e.preventDefault();
+      }
     }
   });
   window.addEventListener('keyup', function (e) {
@@ -1052,6 +1091,8 @@ function bindUI() {
     settings.sky = document.querySelector('[data-group="sky"] .choice.active').dataset.value;
     settings.difficulty = document.querySelector('[data-group="difficulty"] .choice.active').dataset.value;
     settings.mode = parseInt(document.querySelector('[data-group="mode"] .choice.active').dataset.value, 10);
+    var wpnEl = document.querySelector('[data-group="weapon"] .choice.active');
+    if (wpnEl) settings.weapon = wpnEl.dataset.value;
     playerName = ($('name-input').value || '').trim().slice(0, 14);
     saveName(playerName);
     startMatch();

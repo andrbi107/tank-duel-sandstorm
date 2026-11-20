@@ -2,10 +2,10 @@
 
 > یک دوئل توپخانه‌ای turn-based با فیزیک پرتابه، زمین destructible، و باد — PWA با Vanilla JS.
 
-[![Version](https://img.shields.io/badge/version-v0.0.2-blue)](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.2) [![PWA](https://img.shields.io/badge/PWA-installable-purple)](https://andrbi107.github.io/tank-duel-sandstorm/) [![No deps](https://img.shields.io/badge/dependencies-none-success)](https://github.com/andrbi107/tank-duel-sandstorm) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Version](https://img.shields.io/badge/version-v0.0.3-blue)](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.3) [![PWA](https://img.shields.io/badge/PWA-installable-purple)](https://andrbi107.github.io/tank-duel-sandstorm/) [![No deps](https://img.shields.io/badge/dependencies-none-success)](https://github.com/andrbi107/tank-duel-sandstorm) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 🎮 **[بازی کن](https://andrbi107.github.io/tank-duel-sandstorm/)** — نسخه‌ی آنلاین روی GitHub Pages
-📦 **[مخزن گیت‌هاب](https://github.com/andrbi107/tank-duel-sandstorm)** · 🏷️ **[Release v0.0.2](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.2)**
+📦 **[مخزن گیت‌هاب](https://github.com/andrbi107/tank-duel-sandstorm)** · 🏷️ **[Release v0.0.3](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.3)**
 
 ---
 
@@ -14,6 +14,12 @@
 **Tank Duel** — پالت آسمان چهارم «Dawn» (صبحگاه، صورتی-هلویی) در صفحه‌ی شروع. haptic روی شلیک بازیکن.
 
 **همه‌ی بازی‌ها** — `mobile-ux.js` مشترک (haptics/install prompt/version stamp) + cache sw.js به v2.
+
+---
+
+## تغییرات v0.0.3 (جدید)
+
+**Tank Duel** — تنوع سلاح: ۳ سلاح (استاندارد/خوشه‌ای/سنگین) + انتخاب‌گر در منو + کلید Q برای تغییر در بازی.
 
 ---
 
