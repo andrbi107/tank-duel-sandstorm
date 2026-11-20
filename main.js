@@ -895,6 +895,7 @@ function showMatchOver(playerWon) {
   $('mo-rec-losses').textContent = r.losses;
   $('mo-rec-best').textContent = r.hardestDifficultyWon ? r.hardestDifficultyWon.toUpperCase() : '—';
   $('match-over-screen').classList.remove('hidden');
+  if (window.GK) GK.recordRun({ score: matchPlayerWins, result: playerWon ? 'win' : 'loss' });
 }
 
 /* ============================================================ Match / round setup */
@@ -1165,8 +1166,11 @@ function init() {
 init();
 
 })();
-// ---- v0.0.4 gamekit wiring ----
+// ---- v0.0.5 gamekit wiring (splash + menu + stats + leaderboard + auto-update) ----
 if (window.GK) {
+  GK.boot({ title: "Tank Duel", tagline: "Artillery turn duel", theme: "#1a1408" });
   GK.help({ title: "Tank Duel: Sandstorm", objective: "Turn-based artillery duel. Adjust angle/power, mind the wind, destroy the enemy tank.", controls: ["Touch: drag to aim + power slider","Arrows / A,D: angle; W/S: power","Q: cycle weapon","Enter / Space: fire","P: pause","F: fullscreen"], tips: "Best-of-3 wins the match." });
   GK.exposeState(function () { try { return { score: (window.S && window.S.score) || window.score || 0, mode: (window.S && window.S.mode) || 'play', wave: (window.S && window.S.wave) || 0 }; } catch (e) { return {}; } });
+  GK._manualRecord = true;
+  setTimeout(function () { GK.ready(); }, 600);
 }

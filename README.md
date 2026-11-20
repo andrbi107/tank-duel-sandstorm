@@ -2,10 +2,10 @@
 
 > یک دوئل توپخانه‌ای turn-based با فیزیک پرتابه، زمین destructible، و باد — PWA با Vanilla JS.
 
-[![Version](https://img.shields.io/badge/version-v0.0.4-blue)](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.4) [![PWA](https://img.shields.io/badge/PWA-installable-purple)](https://andrbi107.github.io/tank-duel-sandstorm/) [![deps](https://img.shields.io/badge/deps-Howler.js_local-blueviolet)](https://github.com/andrbi107/tank-duel-sandstorm) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Version](https://img.shields.io/badge/version-v0.0.5-blue)](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.5) [![PWA](https://img.shields.io/badge/PWA-installable-purple)](https://andrbi107.github.io/tank-duel-sandstorm/) [![deps](https://img.shields.io/badge/deps-Howler.js_local-blueviolet)](https://github.com/andrbi107/tank-duel-sandstorm) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 🎮 **[بازی کن](https://andrbi107.github.io/tank-duel-sandstorm/)** — نسخه‌ی آنلاین روی GitHub Pages
-📦 **[مخزن گیت‌هاب](https://github.com/andrbi107/tank-duel-sandstorm)** · 🏷️ **[Release v0.0.4](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.4)**
+📦 **[مخزن گیت‌هاب](https://github.com/andrbi107/tank-duel-sandstorm)** · 🏷️ **[Release v0.0.5](https://github.com/andrbi107/tank-duel-sandstorm/releases/tag/v0.0.5)**
 
 ---
 
@@ -17,7 +17,13 @@
 
 ---
 
-## تغییرات v0.0.4 (جدید)
+## تغییرات v0.0.5 (جدید)
+
+**همه‌ی بازی‌ها (v0.0.5)** — لایه‌ی متای محصول افزوده شد: **صفحه‌ی لودینگ** برندشده، **منوی اصلی** (راهنما / آمار و تاریخچه / امتیازات و رقابت / تنظیمات)، **تاریخچه و آمار** (آخرین بازی‌ها + مجموع/میانگین/بهترین + دستاوردها)، **جدول امتیازات و رقابت** (مدال‌های 🥇🥈🥉 + تیرهای Bronze→Diamond + کد اشتراک رکورد)، و **بروزرسانی خودکار PWA** (بنر «نسخه‌ی جدید آماده است» → با یک کلیک بروزرسانی، نسخه‌ی جدید جایگزین می‌شود). `sw.js` بازنویسی شد: cache v5 + network-first برای صفحات (دریافت خودکار HTML جدید) + skipWaiting از طریق بنر + رفع باگ cache آفلاین SFX (پسوند .wav).
+
+---
+
+## تغییرات v0.0.4
 
 (v0.0.4 فقط کیت مشترک؛ گیم‌پلی v0.0.3 حفظ شد: ۳ سلاح + تنظیمات inline).
 
